@@ -13,6 +13,7 @@
     NSMutableArray *tickets;
     int totalSpent;
     int totalWinnings;
+    BOOL lotteryOver;
 }
 
 -(IBAction)createTicket:(id)sender;
@@ -61,6 +62,7 @@
     cell.textLabel.text = [aTicket description];
     if ([aTicket.payout containsString:(@"ticket purchased!")]) {
         cell.detailTextLabel.text = [NSString stringWithFormat:@"ticket purchased!"];
+        cell.detailTextLabel.textColor = [UIColor blackColor];
     }else{
         if (![aTicket.payout containsString:@"sorry please play again"]) {
             cell.detailTextLabel.textColor = [UIColor greenColor];
@@ -120,11 +122,20 @@
 */
 //implement ticket button method of IBAction createTicket
 -(IBAction)createTicket:(id)sender{
+    
+    if (lotteryOver == YES ) {
+        
+        [tickets removeAllObjects];
+        lotteryOver = NO;
+    }
+    
     Ticket * aTicket = [Ticket ticketUsingQuickPick];
     [tickets addObject:aTicket];
     totalSpent += 1;
     self.title = [NSString stringWithFormat: @"Spent: $%d", totalSpent];
     [self.tableView reloadData];
+    
+    
 }
 
 -(IBAction)checkWinners:(id)sender{
@@ -137,6 +148,7 @@
     }
     self.title = [NSString stringWithFormat: @"Spent: $%d Won:$%d", totalSpent, totalWinnings];
     [self.tableView reloadData];
+    lotteryOver = YES;
     
 }
 
