@@ -47,6 +47,7 @@
 +(instancetype)ticketUsingArray:(NSArray *)picks{
     //class is uppercase and lowercase is local variable. Good to do with other developers
     Ticket * ticket = [[Ticket alloc]init];
+    [ticket storeTheArrayIntoPicks:picks];
     
     return ticket;
 }
@@ -127,7 +128,7 @@
             break;
             
         default:
-            self.payout = @"sorry please play again";
+            self.payout = @"0";
             break;
     }
     
